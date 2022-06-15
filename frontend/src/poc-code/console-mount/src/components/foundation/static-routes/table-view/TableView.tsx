@@ -19,7 +19,7 @@ export type FilterItem = {
 
 export type TableViewProps<D> = VirtualizedTableProps<D> & {
   /** Optional custom onFilter callback. */
-  onFilter?: (filterValues: Record<string, string>, activeFilter?: FilterItem) => D[];
+  onFilter?: (filterValues: Record<string, string[]>, activeFilter?: FilterItem) => D[];
   /** Optional array of filterBy options. */
   filters?: FilterItem[];
 };
@@ -42,10 +42,10 @@ const TableView: React.FC<TableViewProps<Record<string, unknown>>> = ({
 }) => {
   const history = useHistory();
   const [activeFilter, setActiveFilter] = React.useState<FilterItem | undefined>(filters?.[0]);
-  const [filterValues, setFilterValues] = React.useState<Record<string, string>>({});
+  const [filterValues, setFilterValues] = React.useState<Record<string, string[]>>({});
   const [filteredData, setFilteredData] = React.useState(data);
   const [isFilterSelectExpanded, setFilterSelectExpanded] = React.useState(false);
-
+  
   React.useEffect(() => {
     const initialFilterValues = syncFiltersWithUrl(
       history,
@@ -54,8 +54,6 @@ const TableView: React.FC<TableViewProps<Record<string, unknown>>> = ({
     );
     setFilterValues(initialFilterValues);
   }, []);
-
-  console.log(history)
 
   React.useEffect(() => {
     applyFiltersToUrl(
@@ -67,9 +65,16 @@ const TableView: React.FC<TableViewProps<Record<string, unknown>>> = ({
       setFilteredData(
         onFilter
           ? onFilter(filterValues, activeFilter)
-          : [...data].filter((item) =>
-              Object.keys(filterValues).every((key) => (item[key] as string)?.toLowerCase()?.includes(filterValues[key]?.toLowerCase())),
-            ),
+          : [...data].filter((item) => 
+            {
+                let isRelevant = true;
+                Object.keys(filterValues).forEach(key => {
+                    if (filterValues[key].some(filterValue => !(item[key] as string)?.toLowerCase()?.includes(filterValue))) {
+                        isRelevant = false;
+                    }
+                })
+                return isRelevant;
+            }),
       );
     }
   }, [data, filterValues, onFilter]);
@@ -104,13 +109,11 @@ const TableView: React.FC<TableViewProps<Record<string, unknown>>> = ({
                   className="dps-table-view__search"
                   onChange={(value) => {
                     if (activeFilter) {
-                      setFilterValues({
-                        ...filterValues,
-                        [activeFilter.id]: value,
-                      });
+                      const newValues = value?.length > 0 ? { ...filterValues, [activeFilter.id]: [value] } : omit(filterValues, activeFilter.id);
+                      setFilterValues(newValues);
                     }
                   }}
-                  value={activeFilter ? filterValues[activeFilter.id] : ''}
+                  value={activeFilter ? filterValues[activeFilter.id]?.[0] : ''}
                   placeholder={`Filter by ${activeFilter?.label}`}
                 />
               </ToolbarItem>

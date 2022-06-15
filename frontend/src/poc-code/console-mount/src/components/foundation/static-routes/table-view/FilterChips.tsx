@@ -13,7 +13,7 @@ export interface FilterChipsProps {
   /** Optional available filters */
   filters?: FilterChipItem[];
   /** Optional applied filter values. */
-  filterValues?: Record<string, string>;
+  filterValues?: Record<string, string[]>;
   /** Optional callback for on chip delete. */
   onDelete?: (key?: string) => void;
 }
@@ -21,16 +21,19 @@ export interface FilterChipsProps {
 const FilterChips: React.FunctionComponent<FilterChipsProps> = ({ filters = [], filterValues = {}, onDelete = () => undefined }) => {
   const groupedFilters = Object.keys(filterValues).map((key) => (
     <ChipGroup className="dps-filter-chips__chip-group" key={`group-${key}`} categoryName={filters.find((item) => item.id === key)?.label}>
-      <Chip
-        key={filterValues[key]}
-        onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          onDelete(key);
-        }}
-      >
-        {filterValues[key]}
-      </Chip>
+      {filterValues[key].map((value, index) => 
+        <Chip
+            key={`${key}-chip-${index}`}
+            onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onDelete(key);
+            }}
+            >
+            {value}
+        </Chip>
+        )
+      }
     </ChipGroup>
   ));
 

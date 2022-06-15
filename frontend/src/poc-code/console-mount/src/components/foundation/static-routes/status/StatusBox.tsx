@@ -14,9 +14,7 @@ type AccessDeniedProps = {
   message: string | React.ComponentType;
 };
 
-export const AccessDenied: React.FC<AccessDeniedProps> = ({
-  message = 'Insufficient access rights.',
-}) => (
+export const AccessDenied: React.FC<AccessDeniedProps> = ({ message = 'Insufficient access rights.' }) => (
   <EmptyState>
     <Title headingLevel="h2">Restricted Access</Title>
     <EmptyStateBody>
