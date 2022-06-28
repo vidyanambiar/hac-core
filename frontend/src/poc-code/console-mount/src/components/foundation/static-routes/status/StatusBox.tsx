@@ -57,13 +57,10 @@ export const StatusBox: React.FC<StatusBoxProps> = ({
   emptyStateDescription,
   loaded,
   CustomEmptyState,
-  loadErrorDefaultText,
   CustomNoDataEmptyState,
 }): React.ReactElement | null => {
   if (loadError) {
-    const status = _.get(loadError, 'response.status');
-    const loadErrorMsg = loadError.message || loadErrorDefaultText || 'Data loading failed.';
-    switch (status) {
+    switch (loadError.status) {
       case 404:
         return (
           <EmptyState>
@@ -71,14 +68,14 @@ export const StatusBox: React.FC<StatusBoxProps> = ({
           </EmptyState>
         );
       case 403:
-        return <AccessDenied message={loadErrorMsg} />;
+        return <AccessDenied message={loadError?.message} />;
       default:
         break;
     }
 
     return (
       <EmptyState>
-        <Title headingLevel="h1">{loadErrorMsg}</Title>
+        <Title headingLevel="h1">{loadError?.message}</Title>
         <EmptyStateBody>{emptyStateDescription}</EmptyStateBody>
       </EmptyState>
     );

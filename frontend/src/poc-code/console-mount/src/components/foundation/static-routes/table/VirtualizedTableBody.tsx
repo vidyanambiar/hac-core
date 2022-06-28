@@ -38,9 +38,11 @@ export type TableRowProps = {
 };
 
 export const TableRow: React.FC<TableRowProps> = ({ id, children, style, trKey, className }) => {
-  return <tr id={id} style={style} key={trKey} className={className} role="row">
+  return (
+    <tr id={id} style={style} key={trKey} className={className} role="row">
       {children}
-  </tr>;
+    </tr>
+  );
 };
 
 type VirtualizedTableBodyProps<D> = {
@@ -111,14 +113,14 @@ const VirtualizedTableBody = <D,>({
         <TableRow id={key} index={index} trKey={key} style={style}>
           <>
             {onSelect && (
-                <Td
+              <Td
                 select={{
-                    rowIndex: index,
-                    onSelect: (event, isSelected) => onSelect?.(event, isSelected, [rowArgs.obj]),
-                    isSelected: isRowSelected?.(rowArgs.obj) || false,
-                    disable: !!(rowArgs?.obj as Record<string, unknown>)?.disable,
+                  rowIndex: index,
+                  onSelect: (event, isSelected) => onSelect?.(event, isSelected, [rowArgs.obj]),
+                  isSelected: isRowSelected?.(rowArgs.obj) || false,
+                  disable: !!(rowArgs?.obj as Record<string, unknown>)?.disable,
                 }}
-                />
+              />
             )}
             <RowMemo Row={Row} obj={rowArgs.obj} />
           </>

@@ -75,7 +75,7 @@ export const WithScrollContainer: React.FC<WithScrollContainerProps> = ({ childr
   return scrollContainer ? children(scrollContainer) : <span ref={ref} />;
 };
 
-const VirtualizedTable: React.FC<VirtualizedTableProps<unknown>> = ({
+const VirtualizedTable = <D extends Record<string, unknown>>({
   areFiltersApplied,
   data: initialData,
   loaded,
@@ -90,7 +90,7 @@ const VirtualizedTable: React.FC<VirtualizedTableProps<unknown>> = ({
   isRowSelected,
   scrollNode,
   'aria-label': ariaLabel,
-}) => {
+}: VirtualizedTableProps<D>) => {
   const [activeSortDirection, setActiveSortDirection] = React.useState('none');
   const [activeSortIndex, setActiveSortIndex] = React.useState(-1);
   const [data, setData] = React.useState(initialData);
@@ -155,12 +155,14 @@ const VirtualizedTable: React.FC<VirtualizedTableProps<unknown>> = ({
         <TableComposable aria-label={ariaLabel} role="presentation">
           <Thead>
             <Tr>
-              <Th
-                select={{
-                  onSelect: (event, rowSelected) => onSelect?.(event, rowSelected, data),
-                  isSelected: data.every((item) => isRowSelected?.(item)),
-                }}
-              />
+              {onSelect && (
+                <Th
+                  select={{
+                    onSelect: (event, rowSelected) => onSelect?.(event, rowSelected, data),
+                    isSelected: data.every((item) => isRowSelected?.(item)),
+                  }}
+                />
+              )}
               {columns.map(({ title, props: properties, sort, transforms, visibility, id }, columnIndex) => {
                 const isSortable = !!transforms?.find((item) => item?.name === 'sortable');
                 const defaultSort = {

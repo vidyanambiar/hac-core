@@ -8,7 +8,7 @@ export type RowProps<D> = {
   obj: D;
 };
 
-export const Row: React.FC<RowProps<Record<string, string>>> = ({ obj, ...rest }) => {
+export const Row: React.FC<RowProps<Record<string, string>>> = ({ obj }) => {
   return (
     <>
       <Td dataLabel={obj.name}>{obj.name}</Td>
@@ -142,11 +142,11 @@ const EmptyRoute: React.FC = () => {
               label: 'Workspaces',
             },
           ]}
-          onSelect={(e, isRowSelected, data) =>
+          onSelect={(e, isRowSelected, selectedData) => {
             isRowSelected
-              ? setSelected([...new Set([...selected, ...data.map((i) => i.name)])])
-              : setSelected(selected.filter((i) => data.map((i) => i.name).includes(i)))
-          }
+              ? setSelected([...new Set([...selected, ...selectedData.map((i) => i.name)])])
+              : setSelected(selected.filter((i) => !selectedData.map((item) => item.name).includes(i)));
+          }}
           emptyStateDescription="No data applicable"
           isRowSelected={(i) => selected.includes(i.name)}
         />

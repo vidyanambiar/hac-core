@@ -1,11 +1,9 @@
-import * as _ from 'lodash-es';
-
-export const applyFiltersToUrl = (history, keys: string[], filterValues: Record<string, string[]>) => {
+export const setFiltersToURL = (history, keys: string[], filterValues: Record<string, string[]>) => {
   const searchParams = new URLSearchParams(history.location.search);
   keys.forEach((key: string) => {
     searchParams.delete(key);
     if (filterValues[key]) {
-       filterValues[key].map((value) => searchParams.append(key, value));
+      filterValues[key].map((value) => searchParams.append(key, value));
     }
   });
 
@@ -15,23 +13,11 @@ export const applyFiltersToUrl = (history, keys: string[], filterValues: Record<
   });
 };
 
-export const syncFiltersWithUrl = (history, keys: string[], defaults: Record<string, string[]> = {}) => {
-  const searchParams = new URLSearchParams(history.location.search);
-
-  let filters: Record<string, string[]> = keys.reduce((acc, key) => {
+export const parseFiltersFromURL = (searchParams: URLSearchParams, keys: string[]): Record<string, string[]> =>
+  keys.reduce((acc, key) => {
     const values = searchParams.getAll(key);
     return {
       ...acc,
       [key]: values,
     };
   }, {});
-
-  filters = _.merge(filters, defaults);
-
-  Object.keys(filters).forEach((key) => filters[key]?.length > 0 || delete filters[key]);
-  history.replace({
-    pathname: history.location.pathname,
-    search: searchParams.toString(),
-  });
-  return filters;
-};
