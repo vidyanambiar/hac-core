@@ -90,7 +90,10 @@
     "ts-node": "10.8.0",
     "typesafe-actions": "^5.1.0",
     "typescript": "4.4.4",
-    "webpack-bundle-analyzer": "4.4.2"
+    "webpack-bundle-analyzer": "4.4.2",
+    "@patternfly/react-virtualized-extension": "^4.53.2",
+    "react-virtualized": "^9.22.3",
+    "@types/react-virtualized": "^9.21.21"
   },
   "insights": {
     "appname": "hac-core",
