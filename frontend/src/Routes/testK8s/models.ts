@@ -7,6 +7,13 @@ export const ProjectModel: K8sModelCommon = {
   plural: 'projects',
 };
 
+export const WorkspaceModel: K8sModelCommon = {
+  apiVersion: 'v1beta1',
+  apiGroup: 'tenancy.kcp.dev',
+  kind: 'Workspace',
+  plural: 'workspaces',
+};
+
 export const ApplicationModel: K8sModelCommon = {
   apiVersion: 'v1alpha1',
   kind: 'Application',

@@ -65,12 +65,13 @@ const webpackProxy = {
   customProxy: [
     {
       context: (path) => path.includes('/api/k8s'),
-      target: 'https://api-toolchain-host-operator.apps.appstudio-stage.x99m.p1.openshiftapps.com:443',
+      target: 'http://localhost:3000',
       secure: false,
       changeOrigin: true,
       autoRewrite: true,
       ws: true,
       pathRewrite: { '^/api/k8s': '' },
+      withCredentials: true,
     },
     pluginProxy('hac-dev'),
     pluginProxy('hac-build-service'),

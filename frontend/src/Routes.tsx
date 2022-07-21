@@ -5,6 +5,7 @@ import { Bullseye, Spinner } from '@patternfly/react-core';
 
 const DynamicRoute = React.lazy(() => import(/* webpackChunkName: "DynamicRoute" */ './Routes/DynamicRoute/DynamicRoute'));
 const TestK8s = React.lazy(() => import(/* webpackChunkName: "TestK8s" */ './Routes/testK8s/TestK8s'));
+const TestKCP = React.lazy(() => import(/* webpackChunkName: "TestKCP" */ './Routes/testKCP/TestKCP'));
 
 export const Routes: React.FC = () => (
   <React.Suspense
@@ -17,6 +18,7 @@ export const Routes: React.FC = () => (
     <DomRoutes>
       <Route path="/*" element={<DynamicRoute />} />
       <Route path="/testK8s" element={<TestK8s />} />
+      <Route path="/testKCP" element={<TestKCP />} />
     </DomRoutes>
   </React.Suspense>
 );
