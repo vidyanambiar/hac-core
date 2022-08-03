@@ -78,12 +78,13 @@ const webpackProxy = {
     pluginProxy('hac-infra'),
     {
       context: (path) => path.includes('/wss/k8s'),
-      target: 'wss://api-toolchain-host-operator.apps.appstudio-stage.x99m.p1.openshiftapps.com:443',
+      target: 'ws://localhost:3000',
       secure: false,
       changeOrigin: true,
       autoRewrite: true,
       ws: true,
       pathRewrite: { '^/wss/k8s': '' },
+      withCredentials: true,
     },
   ],
 };
