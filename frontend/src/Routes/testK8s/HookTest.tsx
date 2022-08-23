@@ -70,6 +70,7 @@ const HookTest: React.FC<HookTestProps> = ({ namespace }) => {
         {isAppResourceLoaded && appResourceData && <Text component={TextVariants.p}>Resource loaded</Text>}
         {isAppResourceLoaded && !appResourceData && <Text component={TextVariants.p}>No data -- did you create the Application?</Text>}
       </TextContent>
+      <br />
     </>
   );
 };
