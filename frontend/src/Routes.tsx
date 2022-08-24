@@ -19,7 +19,7 @@ export const Routes: React.FC = () => (
       <Route path="/*" element={<DynamicRoute />} />
       <Route path="/testK8s" element={<TestK8s />} />
       <Route path="/testNav" element={<HorizontalNavTest />} />
-      <Route path="/testNav/:activeNavTab" element={<HorizontalNavTest />} />
+      <Route path="/testNav/:selectedTab" element={<HorizontalNavTest />} />
     </DomRoutes>
   </React.Suspense>
 );

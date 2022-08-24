@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Title } from '@patternfly/react-core';
-import { HorizontalNavWithRouter, Tab } from '@openshift/dynamic-plugin-sdk-utils';
+import { HorizontalNav, Tab } from '@openshift/dynamic-plugin-sdk-utils';
 
 const UsersTabContent: React.FC = () => <div>Users Tab Content</div>;
 const DatabaseTabContent: React.FC = () => <div>Database Tab Content</div>;
@@ -16,7 +16,7 @@ const HorizontalNavTest: React.FC = () => {
       <Title headingLevel="h2" size="xl">
         Test Horizontal Nav
       </Title>
-      <HorizontalNavWithRouter tabs={mockTabs} />
+      <HorizontalNav tabs={mockTabs} />
     </>
   );
 };
